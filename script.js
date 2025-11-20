@@ -300,7 +300,7 @@ function showDashboard(offerKey) {
     document.getElementById('view-dashboard').classList.remove('hidden');
     
     // 2. Actualizar Breadcrumb
-    const breadcrumbHtml = `Ofertas > Área Técnica > <span>${offer.title}</span>`;
+    const breadcrumbHtml = `Ofertas Activas > <span>${offer.title}</span>`;
     document.getElementById('breadcrumb-text').innerHTML = breadcrumbHtml;
     
     // 3. Rellenar la Lista Lateral de Candidatos
