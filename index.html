@@ -5,16 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seresco Ofertas Empleo AI - Prototipo</title>
     
-    <!-- Fuentes e Iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Hoja de Estilos Separada -->
     <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Estilos para el botón dummy "Añadir Oferta" */
+        .btn-dummy {
+            background-color: transparent;
+            border: 2px dashed #ccc;
+            color: #999;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: not-allowed;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Montserrat', sans-serif;
+            transition: 0.2s;
+        }
+        .btn-dummy:hover {
+            border-color: var(--color-brand);
+            color: var(--color-brand);
+        }
+
+        /* Estilos para las Tabs del Dashboard */
+        .list-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--cc-border);
+            padding-bottom: 0;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--cc-text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .tab-btn:hover { color: var(--color-brand); }
+        
+        .tab-btn.active {
+            color: var(--color-brand);
+            border-bottom-color: var(--color-brand);
+        }
+
+        /* Estilo visual para candidatos descartados (Al fondo de la lista) */
+        .card-discarded {
+            opacity: 0.6;
+            background-color: #f8f9fa; /* Gris muy claro */
+            border-left: 4px solid #ccc !important;
+            filter: grayscale(100%);
+        }
+        .card-discarded:hover {
+            opacity: 0.9;
+            filter: grayscale(0%);
+        }
+    </style>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
     <nav class="sidebar">
         <div class="logo" onclick="showOffers()">
             <i class="fa-solid fa-layer-group"></i> SERESCO AI
@@ -36,10 +94,8 @@
         </div>
     </nav>
 
-    <!-- CONTENIDO -->
     <main class="main-content">
         
-        <!-- HEADER COMÚN -->
         <header class="top-header">
             <div class="breadcrumb" id="breadcrumb-text">
                 Ofertas Activas
@@ -53,14 +109,19 @@
             </div>
         </header>
 
-        <!-- VISTA 1: LISTADO DE OFERTAS (INICIO) -->
         <div id="view-offers" class="offers-view">
-            <h2 style="color: var(--cc-text); font-weight: 800;">Panel de Ofertas</h2>
-            <p style="color: var(--cc-text-light);">Selecciona una oferta para ver el análisis de IA de los candidatos.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h2 style="color: var(--cc-text); font-weight: 800;">Panel de Ofertas</h2>
+                    <p style="color: var(--cc-text-light);">Selecciona una oferta para ver el análisis de IA de los candidatos.</p>
+                </div>
+                <button class="btn-dummy">
+                    <i class="fa-solid fa-plus-circle"></i> Nueva Oferta
+                </button>
+            </div>
 
             <div class="offers-grid">
                 
-                <!-- Oferta 1: Analista -->
                 <div class="offer-card" onclick="showDashboard('analista')">
                     <div class="offer-title">Analista Funcional</div>
                     <div class="offer-meta"><i class="fa-solid fa-location-dot"></i> Madrid (Híbrido) &bull; Producción Software</div>
@@ -70,7 +131,6 @@
                     </div>
                 </div>
 
-                <!-- Oferta 2: Soporte -->
                 <div class="offer-card" onclick="showDashboard('soporte')">
                     <div class="offer-title">Técnico/a Soporte y Monitorización IT</div>
                     <div class="offer-meta"><i class="fa-solid fa-location-dot"></i> Oviedo &bull; Infraestructuras</div>
@@ -80,7 +140,6 @@
                     </div>
                 </div>
 
-                <!-- Oferta 3: Data Scientist -->
                 <div class="offer-card" onclick="showDashboard('data')">
                     <div class="offer-title">Data Scientist</div>
                     <div class="offer-meta"><i class="fa-solid fa-location-dot"></i> Oviedo (Híbrido) &bull; Producción Software</div>
@@ -93,35 +152,34 @@
             </div>
         </div>
 
-        <!-- VISTA 2: DASHBOARD DETALLE (OCULTO POR DEFECTO) -->
         <div id="view-dashboard" class="dashboard-grid hidden">
             
-            <!-- COLUMNA IZQ: LISTA DINÁMICA -->
             <section class="candidate-list">
-                <div class="list-header" style="margin-bottom: 1.5rem;">
+                <div class="list-header" style="margin-bottom: 1rem;">
                     <a href="#" onclick="showOffers()" class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver</a>
-                    <h3 style="margin-top: 10px;" id="list-title">Candidaturas</h3>
+                    
+                    <div class="list-tabs" style="margin-top: 15px;">
+                        <button id="tab-candidates" class="tab-btn active" onclick="switchTab('candidates')">Candidaturas</button>
+                        <button id="tab-process" class="tab-btn" onclick="switchTab('process')">Proceso</button>
+                    </div>
+
+                    <h3 style="margin-top: 5px;" id="list-title">Candidaturas</h3>
                     <small style="color: var(--cc-text-light);" id="list-subtitle">--</small>
                 </div>
 
-                <!-- CONTENEDOR DONDE JS INYECTA LOS CANDIDATOS -->
                 <div id="candidate-list-container">
-                    <!-- Se rellena con JS -->
-                </div>
+                    </div>
             </section>
 
-            <!-- COLUMNA DER: DETALLE -->
             <section class="candidate-detail">
                 <div class="detail-paper">
                     
-                    <!-- Header Perfil -->
                     <div class="profile-top">
                         <div class="avatar-large" id="d-initials">--</div>
                         <div>
                             <h1 id="d-name" style="font-size: 1.8rem; color: var(--cc-text); margin-bottom: 5px;">--</h1>
                             <p id="d-info" style="color: var(--cc-text-light); margin-bottom: 10px;">
-                                <!-- Se rellena con JS -->
-                            </p>
+                                </p>
                             <a href="#" class="back-link" style="color: var(--color-brand); font-size: 0.9rem;">
                                 <i class="fa-regular fa-file-pdf"></i> Ver CV Original (PDF)
                             </a>
@@ -132,53 +190,39 @@
                         </div>
                     </div>
 
-                    <!-- Resumen IA -->
                     <div class="ai-section">
                         <div class="ai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Resumen de Adecuación</div>
                         <div class="ai-summary-box" id="d-summary">
-                            <!-- Se rellena con JS -->
-                        </div>
+                            </div>
 
                         <div class="grid-2">
                             <div>
                                 <h4 style="color: var(--success); margin-bottom: 10px;"><i class="fa-solid fa-thumbs-up"></i> Puntos Fuertes</h4>
                                 <ul class="check-list" id="d-strengths" style="color: var(--cc-text);">
-                                    <!-- Se rellena con JS -->
-                                </ul>
+                                    </ul>
                             </div>
                             <div>
                                 <h4 style="color: var(--warning); margin-bottom: 10px;"><i class="fa-solid fa-circle-exclamation"></i> Áreas a Validar</h4>
                                 <ul class="check-list" id="d-gaps" style="color: var(--cc-text);">
-                                    <!-- Se rellena con JS -->
-                                </ul>
+                                    </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Preguntas -->
                     <div class="ai-section">
                         <div class="ai-title"><i class="fa-regular fa-comments"></i> Sugerencias para Entrevista</div>
                         <div id="d-questions">
-                             <!-- Se rellena con JS -->
-                        </div>
+                             </div>
                     </div>
 
-                    <!-- Acciones -->
-                    <div class="actions">
-                        <button class="btn btn-primary">
-                            <i class="fa-solid fa-check"></i> Convocar
-                        </button>
-                        <button class="btn btn-secondary" style="color: var(--danger); border-color: var(--danger);">
-                            <i class="fa-solid fa-xmark"></i> Descartar
-                        </button>
-                    </div>
+                    <div class="actions" id="d-actions">
+                        </div>
 
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
-</html>
+</html>>
