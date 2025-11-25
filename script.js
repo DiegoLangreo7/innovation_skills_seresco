@@ -1,5 +1,4 @@
-// --- BASE DE DATOS SIMULADA (Estructura por Oferta) ---
-// Añadimos propiedad 'status': 'pending' (defecto), 'selected' (convocado), 'discarded' (descartado)
+// --- BASE DE DATOS SIMULADA ---
 const offersData = {
     'analista': {
         title: "Analista Funcional",
@@ -12,11 +11,30 @@ const offersData = {
                 info: "Madrid | 4 Años Exp",
                 initials: "CM",
                 matchScore: 95,
-                status: 'pending',
-                summary: "<strong>Candidato Ideal.</strong> Cumple con el perfil Senior solicitado. La IA destaca su experiencia específica en <strong>Sector AGRO (Gestión de PAC)</strong> y proyectos para la <strong>Administración Pública</strong>, dos de los puntos más valorados en la oferta.",
-                strengths: ["Exp. en Admin. Pública y PAC (AGRO)", "Certificación Product Owner (PSPO I)", "Conocimiento diseño BBDD (SQL/NoSQL)", "Residente en Madrid (Disponibilidad inmediata)"],
-                gaps: ["Nivel de Inglés: B1 (Oferta valora B2)", "No especifica disponibilidad para viajes puntuales"],
-                questions: [{ text: "¿Podrías detallar tu rol en la definición de requisitos para la gestión de la PAC?", reason: "Validar Experiencia Valorable (AGRO)" }, { text: "La oferta requiere movilidad puntual a oficinas de cliente. ¿Tienes disponibilidad?", reason: "Validar Requisito Logístico" }]
+                status: 'pending', 
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Carlos",
+                    lastname: "Méndez",
+                    email: "carlos.mendez@mail.com",
+                    phone: "+34 612 34 56 78",
+                    linkedin: "linkedin.com/in/cmendez",
+                    country: "España",
+                    city: "Madrid",
+                    gender: "Masculino",
+                    birthdate: "12/05/1985",
+                    cvLink: "cv_carlos.pdf"
+                },
+                summary: "<strong>Candidato Ideal.</strong> Cumple con el perfil Senior solicitado. La IA destaca su experiencia específica en <strong>Sector AGRO (Gestión de PAC)</strong> y proyectos para la <strong>Administración Pública</strong>.",
+                strengths: ["Exp. en Admin. Pública y PAC (AGRO)", "Certificación Product Owner (PSPO I)", "Conocimiento diseño BBDD"],
+                gaps: ["Nivel de Inglés: B1 (Oferta valora B2)", "No especifica disponibilidad para viajes"],
+                questions: [
+                    { text: "¿Podrías detallar tu rol en la definición de requisitos para la gestión de la PAC?", reason: "Validar Experiencia Valorable (AGRO)" },
+                    { text: "La oferta requiere movilidad puntual a oficinas de cliente. ¿Tienes disponibilidad?", reason: "Validar Requisito Logístico" },
+                    { text: "No mencionas herramientas de modelado. ¿Has trabajado con BPMN o UML para diagramar procesos?", reason: "Indagar Hard Skill no mencionado" },
+                    { text: "¿Has utilizado herramientas como Jira o Confluence para la gestión documental?", reason: "Validar Herramientas Comunes" }
+                ]
             },
             {
                 id: 102,
@@ -26,10 +44,29 @@ const offersData = {
                 initials: "LP",
                 matchScore: 78,
                 status: 'pending',
-                summary: "<strong>Perfil sólido en Gestión.</strong> Muy fuerte en metodologías Ágiles y toma de requisitos. Su perfil es más de gestión (Product Owner) que técnico puro. Aporta un nivel de inglés C1, superior al solicitado.",
-                strengths: ["Experiencia sólida como Product Owner", "Inglés C1 (Superior al requerido)", "Experiencia en Sector Banca (Alta complejidad)"],
-                gaps: ["Falta experiencia específica en Sector AGRO", "Perfil técnico (Diseño BBDD) menos profundo"],
-                questions: [{ text: "Tu experiencia es muy de gestión. ¿Te sientes cómoda bajando al detalle técnico de las BBDD?", reason: "Validar Perfil Técnico" }, { text: "¿Estarías dispuesta a trabajar en un modelo híbrido estricto en Madrid?", reason: "Validar Ubicación" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Lucía",
+                    lastname: "Prieto",
+                    email: "lucia.prieto@mail.com",
+                    phone: "+34 655 11 22 33",
+                    linkedin: "linkedin.com/in/lprieto",
+                    country: "España",
+                    city: "Valencia (Remoto)",
+                    gender: "Femenino",
+                    birthdate: "23/08/1992",
+                    cvLink: "cv_lucia.pdf"
+                },
+                summary: "<strong>Perfil sólido en Gestión.</strong> Muy fuerte en metodologías Ágiles y toma de requisitos.",
+                strengths: ["Experiencia sólida como Product Owner", "Inglés C1", "Experiencia en Banca"],
+                gaps: ["Falta experiencia específica en Sector AGRO", "Perfil técnico menos profundo"],
+                questions: [
+                    { text: "Tu experiencia es muy de gestión. ¿Te sientes cómoda bajando al detalle técnico de las BBDD?", reason: "Validar Perfil Técnico" },
+                    { text: "¿Estarías dispuesta a trabajar en un modelo híbrido estricto en Madrid?", reason: "Validar Ubicación" },
+                    { text: "¿Has realizado pruebas de API con herramientas como Postman o Swagger?", reason: "Indagar Skill Técnico Oculto" },
+                    { text: "En Banca la documentación es crítica. ¿Cómo gestionas el versionado de requisitos funcionales?", reason: "Validar Metodología" }
+                ]
             },
             {
                 id: 103,
@@ -39,10 +76,29 @@ const offersData = {
                 initials: "MR",
                 matchScore: 60,
                 status: 'pending',
-                summary: "<strong>Perfil Técnico intentando pivotar.</strong> Es un desarrollador excelente que quiere pasar a Analista. Conoce la arquitectura web a la perfección, pero carece de experiencia formal redactando documentación funcional y tratando con clientes finales.",
-                strengths: ["Conocimiento técnico profundo (Java, Spring)", "Entiende arquitecturas web complejas", "Residencia en Madrid"],
-                gaps: ["Sin experiencia previa como Analista Funcional", "Sin experiencia en toma de requisitos de negocio"],
-                questions: [{ text: "¿Qué te motiva a dejar el desarrollo para pasar al análisis funcional?", reason: "Validar Motivación / Cambio de Rol" }, { text: "¿Has tenido experiencia directa gestionando expectativas de clientes difíciles?", reason: "Validar Soft Skills (Orientación Cliente)" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Miguel Ángel",
+                    lastname: "Ramírez",
+                    email: "m.angel.dev@mail.com",
+                    phone: "+34 600 99 88 77",
+                    linkedin: "linkedin.com/in/miguelangelr",
+                    country: "España",
+                    city: "Madrid",
+                    gender: "Masculino",
+                    birthdate: "10/01/1988",
+                    cvLink: "cv_miguel.pdf"
+                },
+                summary: "<strong>Perfil Técnico intentando pivotar.</strong> Es un desarrollador excelente que quiere pasar a Analista.",
+                strengths: ["Conocimiento técnico profundo (Java)", "Arquitecturas web complejas"],
+                gaps: ["Sin experiencia previa como Analista", "Sin experiencia en toma de requisitos"],
+                questions: [
+                    { text: "¿Qué te motiva a dejar el desarrollo para pasar al análisis funcional?", reason: "Validar Motivación" },
+                    { text: "¿Has tenido experiencia directa gestionando expectativas de clientes difíciles?", reason: "Validar Soft Skills" },
+                    { text: "¿Podrías mostrarnos algún documento funcional o Historia de Usuario que hayas redactado en el pasado?", reason: "Validar Capacidad de Redacción" },
+                    { text: "Como ex-desarrollador, ¿cómo evitarás la tentación de decir 'cómo' hacerlo en lugar de 'qué' se necesita?", reason: "Validar Cambio de Rol" }
+                ]
             },
             {
                 id: 104,
@@ -52,16 +108,66 @@ const offersData = {
                 initials: "AR",
                 matchScore: 45,
                 status: 'pending',
-                summary: "<strong>Candidato Junior.</strong> Muestra gran potencial y actitud proactiva, pero no alcanza los 2 años mínimos requeridos para la posición de Analista autónomo. Recomendable para puesto de apoyo o plan de carrera junior.",
-                strengths: ["Certificación Scrum Master reciente", "Inglés B2 certificado", "Ganas de aprender"],
-                gaps: ["Experiencia insuficiente (< 2 años)", "Residencia fuera de Madrid (Toledo)", "Falta profundidad en diseño funcional"],
-                questions: [{ text: "¿Estarías dispuesta a desplazarte diariamente a Madrid o mudarte?", reason: "Validar Logística" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Ana",
+                    lastname: "Ruiz",
+                    email: "ana.ruiz.jun@mail.com",
+                    phone: "+34 611 22 33 44",
+                    linkedin: "linkedin.com/in/anaruiz",
+                    country: "España",
+                    city: "Toledo",
+                    gender: "Femenino",
+                    birthdate: "15/11/1998",
+                    cvLink: "cv_ana.pdf"
+                },
+                summary: "<strong>Candidato Junior.</strong> Muestra gran potencial y actitud proactiva, pero no alcanza los 2 años mínimos.",
+                strengths: ["Certificación Scrum Master reciente", "Inglés B2 certificado"],
+                gaps: ["Experiencia insuficiente (< 2 años)", "Residencia fuera de Madrid"],
+                questions: [
+                    { text: "¿Estarías dispuesta a desplazarte diariamente a Madrid?", reason: "Validar Logística" },
+                    { text: "Al tener poca experiencia, ¿qué conocimientos tienes de consultas SQL (Joins, Group By)?", reason: "Validar Nivel Técnico Base" },
+                    { text: "¿Cómo gestionarías un conflicto de intereses entre dos departamentos al tomar requisitos?", reason: "Validar Madurez Profesional" }
+                ]
+            },
+            {
+                id: 105,
+                name: "Javier Ortega",
+                role: "Consultor IT Senior",
+                info: "Madrid | 7 Años Exp",
+                initials: "JO",
+                matchScore: 88,
+                status: 'pending',
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Javier",
+                    lastname: "Ortega",
+                    email: "j.ortega.consulting@mail.com",
+                    phone: "+34 699 12 34 56",
+                    linkedin: "linkedin.com/in/jortega-it",
+                    country: "España",
+                    city: "Madrid",
+                    gender: "Masculino",
+                    birthdate: "05/09/1987",
+                    cvLink: "cv_javier.pdf"
+                },
+                summary: "<strong>Perfil Consultoría (Big4).</strong> Javier aporta una metodología de trabajo impecable proveniente de grandes consultoras.",
+                strengths: ["Alta capacidad de interlocución con cliente", "Experiencia en grandes proyectos de transformación", "Inglés C1 Negocios"],
+                gaps: ["Lleva 3 años sin tocar SQL directamente", "Expectativa salarial en el límite superior"],
+                questions: [
+                    { text: "Vienes de una Big4. ¿Cómo te adaptarías a un equipo de producto más pequeño?", reason: "Validar Fit Cultural" },
+                    { text: "¿Estás dispuesto a retomar tareas técnicas como el diseño de BBDD?", reason: "Validar Hands-on" },
+                    { text: "En tu CV no detallas herramientas de ticketing. ¿Has configurado flujos de trabajo en Jira?", reason: "Indagar Skill Operativo" },
+                    { text: "¿Has trabajado con metodologías Waterfall o solo Agile?", reason: "Validar Versatilidad" }
+                ]
             }
         ]
     },
     'soporte': {
-        title: "Técnico/a Soporte IT (Operations Bridge)",
-        location: "Oviedo (Presencial)",
+        title: "Técnico/a Soporte IT",
+        location: "Oviedo",
         candidates: [
             {
                 id: 201,
@@ -71,10 +177,29 @@ const offersData = {
                 initials: "DF",
                 matchScore: 92,
                 status: 'pending',
-                summary: "<strong>Ajuste Perfecto.</strong> David vive en Oviedo, tiene experiencia previa trabajando a turnos 24x7 y conoce las herramientas de ticketing (ServiceNow). Su perfil técnico cubre Windows y Unix.",
-                strengths: ["Experiencia confirmada en turnos 24x7", "Manejo de ServiceNow y Control-M", "Residente en Oviedo (Disponibilidad inmediata)", "Carnet y vehículo propio"],
-                gaps: ["Nivel de inglés A2 (Oferta pide B2 puntual)", "Experiencia en Mainframe básica"],
-                questions: [{ text: "La oferta requiere inglés B2 para comunicaciones puntuales. ¿Podrías mantener una conversación técnica básica?", reason: "Validar Requisito Idioma" }, { text: "Descríbeme tu experiencia monitorizando entornos Mainframe.", reason: "Validar Competencia Técnica Específica" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "David",
+                    lastname: "Fernández",
+                    email: "david.fdez@mail.com",
+                    phone: "+34 699 88 77 66",
+                    linkedin: "linkedin.com/in/davidf",
+                    country: "España",
+                    city: "Oviedo",
+                    gender: "Masculino",
+                    birthdate: "02/03/1990",
+                    cvLink: "cv_david.pdf"
+                },
+                summary: "<strong>Ajuste Perfecto.</strong> David vive en Oviedo, tiene experiencia previa trabajando a turnos 24x7.",
+                strengths: ["Experiencia en turnos 24x7", "Manejo de ServiceNow", "Residente en Oviedo"],
+                gaps: ["Nivel de inglés A2", "Experiencia en Mainframe básica"],
+                questions: [
+                    { text: "Descríbeme tu experiencia monitorizando entornos Mainframe.", reason: "Validar Técnica" },
+                    { text: "La oferta requiere inglés B2 para comunicaciones puntuales. ¿Podrías mantener una conversación técnica básica?", reason: "Validar Requisito Idioma" },
+                    { text: "¿Has utilizado algún lenguaje de scripting (Bash, PowerShell) para automatizar tareas repetitivas?", reason: "Indagar Skill de Automatización" },
+                    { text: "¿Conoces herramientas de virtualización como VMware o Hyper-V a nivel usuario?", reason: "Indagar Skill Extra" }
+                ]
             },
             {
                 id: 202,
@@ -84,10 +209,28 @@ const offersData = {
                 initials: "SG",
                 matchScore: 75,
                 status: 'pending',
-                summary: "<strong>Perfil Competente.</strong> Tiene buena base en soporte usuario y gestión de tickets. Sin embargo, su experiencia es más de microinformática que de operación de grandes sistemas (Mainframe/Unix).",
-                strengths: ["Gestión de usuarios y Directorio Activo", "Acostumbrada a SLAs estrictos", "Vehículo propio"],
-                gaps: ["Falta experiencia en Monitorización de Servidores", "Nunca ha trabajado a turnos nocturnos"],
-                questions: [{ text: "El puesto implica turnos rotativos 24x7 (noches y festivos). ¿Supone esto algún inconveniente para ti?", reason: "Validar Disponibilidad Crítica" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Sara",
+                    lastname: "García",
+                    email: "sara.garcia95@mail.com",
+                    phone: "+34 666 12 43 11",
+                    linkedin: "linkedin.com/in/ssaaraaa",
+                    country: "España",
+                    city: "Gijón",
+                    gender: "Femenino",
+                    birthdate: "12/04/1995",
+                    cvLink: "cv_sara.pdf"
+                },
+                summary: "<strong>Perfil Competente.</strong> Tiene buena base en soporte usuario y gestión de tickets.",
+                strengths: ["Gestión de usuarios y Directorio Activo", "Vehículo propio"],
+                gaps: ["Falta experiencia en Monitorización Servidores", "Nunca ha trabajado a turnos"],
+                questions: [
+                    { text: "El puesto implica turnos rotativos. ¿Es un inconveniente?", reason: "Validar Disponibilidad" },
+                    { text: "¿Has administrado cuentas de Office 365 o Google Workspace?", reason: "Indagar Skill Cloud Básico" },
+                    { text: "¿Cómo priorizas cuando entran 3 incidencias críticas a la vez?", reason: "Validar Gestión del Estrés" }
+                ]
             },
             {
                 id: 203,
@@ -97,10 +240,28 @@ const offersData = {
                 initials: "JP",
                 matchScore: 50,
                 status: 'pending',
-                summary: "<strong>Riesgo Logístico Detectado.</strong> Técnicamente es un perfil muy interesante con conocimientos de Scripting y Unix superiores a la media. Sin embargo, <strong>no indica tener carnet de conducir</strong>, lo cual es un requisito excluyente marcado en la oferta para el acceso.",
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Jorge",
+                    lastname: "Pérez",
+                    email: "jorge.perez@mail.com",
+                    phone: "+34 611 22 33 44",
+                    linkedin: "linkedin.com/in/jperez",
+                    country: "España",
+                    city: "Oviedo",
+                    gender: "Masculino",
+                    birthdate: "20/02/1999",
+                    cvLink: "cv_jorge.pdf"
+                },
+                summary: "<strong>Riesgo Logístico.</strong> Técnicamente interesante (Linux/Scripting) pero <strong>no indica tener carnet de conducir</strong>.",
                 strengths: ["Conocimientos avanzados de Linux/Unix", "Inglés C1"],
                 gaps: ["CRÍTICO: No menciona Carnet/Vehículo", "Sin experiencia en Mainframe"],
-                questions: [{ text: "Para el acceso al puesto se requiere vehículo propio indispensable. ¿Cuentas con ello?", reason: "Validar Requisito Excluyente" }]
+                questions: [
+                    { text: "¿Cuentas con vehículo propio para desplazarte al centro de datos?", reason: "Validar Requisito Excluyente" },
+                    { text: "Si un servidor Linux pierde conectividad, ¿qué comandos usarías para diagnosticarlo?", reason: "Validar Skill Técnico Real" },
+                    { text: "¿Has trabajado con herramientas de backup?", reason: "Indagar Skill Operativo" }
+                ]
             },
             {
                 id: 204,
@@ -110,10 +271,59 @@ const offersData = {
                 initials: "ML",
                 matchScore: 20,
                 status: 'pending',
-                summary: "<strong>Descarte Recomendado.</strong> El perfil no se ajusta a la oferta. Es una desarrolladora web (HTML/CSS) aplicando a un puesto de Operación de Infraestructuras. No hay coincidencia de competencias.",
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "María",
+                    lastname: "López",
+                    email: "maria.lopez.web@mail.com",
+                    phone: "+34 655 66 77 88",
+                    linkedin: "linkedin.com/in/marial-dev",
+                    country: "España",
+                    city: "Avilés",
+                    gender: "Femenino",
+                    birthdate: "14/06/2000",
+                    cvLink: "cv_maria.pdf"
+                },
+                summary: "<strong>Descarte Recomendado.</strong> Perfil de Desarrollo Web aplicando a Sistemas/Infraestructuras.",
                 strengths: ["Formación TIC (DAW)"],
-                gaps: ["Perfil de Desarrollo, no de Sistemas", "Sin experiencia en monitorización", "Intereses profesionales divergentes"],
-                questions: [{ text: "¿Por qué aplicas a un puesto de Operación de Sistemas siendo tu perfil de Desarrollo Web?", reason: "Validar Interés Real" }]
+                gaps: ["Perfil de Desarrollo, no de Sistemas", "Sin experiencia en monitorización"],
+                questions: [
+                    { text: "¿Por qué aplicas a Operación de Sistemas siendo perfil Web?", reason: "Validar Interés" },
+                    { text: "Al venir de desarrollo web, ¿tienes experiencia configurando servidores Apache o Nginx?", reason: "Buscar Punto de Encuentro" }
+                ]
+            },
+            {
+                id: 205,
+                name: "Marta Otero",
+                role: "Técnico de Sistemas / Campo",
+                info: "Oviedo | 4 Años Exp",
+                initials: "MO",
+                matchScore: 89,
+                status: 'pending',
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Marta",
+                    lastname: "Otero",
+                    email: "marta.otero@mail.com",
+                    phone: "+34 612 98 76 54",
+                    linkedin: "linkedin.com/in/martaotero-sys",
+                    country: "España",
+                    city: "Oviedo",
+                    gender: "Femenino",
+                    birthdate: "30/11/1989",
+                    cvLink: "cv_marta.pdf"
+                },
+                summary: "<strong>Perfil Todoterreno.</strong> Marta combina experiencia en CAU con intervenciones físicas en CPD (rackeado, cableado).",
+                strengths: ["Experiencia física en CPD y Hardware", "Certificación Azure Fundamentals", "Carnet y Coche propio", "Inglés B2 real"],
+                gaps: ["Menos experiencia en herramientas de ticketing enterprise (BMC)", "Acostumbrada a horario oficina, no turnos"],
+                questions: [
+                    { text: "¿Tienes disponibilidad para realizar guardias localizadas los fines de semana?", reason: "Validar Disponibilidad" },
+                    { text: "Cuéntanos tu experiencia resolviendo incidencias críticas de red in-situ.", reason: "Validar Resolución Problemas" },
+                    { text: "En tu perfil veo mucho Windows, ¿qué tal te defiendes con la línea de comandos de Linux?", reason: "Indagar Hard Skill no confirmado" },
+                    { text: "Has trabajado con Azure. ¿Tienes experiencia monitorizando recursos cloud con Azure Monitor?", reason: "Validar Skill Cloud Práctico" }
+                ]
             }
         ]
     },
@@ -121,7 +331,7 @@ const offersData = {
         title: "Data Scientist",
         location: "Oviedo (Híbrido)",
         candidates: [
-            {
+             {
                 id: 301,
                 name: "Elena Mayor",
                 role: "Data Scientist",
@@ -129,10 +339,29 @@ const offersData = {
                 initials: "EM",
                 matchScore: 98,
                 status: 'pending',
-                summary: "<strong>Candidato Top Performer.</strong> Elena posee un Máster en Estadística y 4 años de experiencia directa. Domina el stack completo solicitado: Python (Pandas, Scikit-learn), SQL y visualización. Además, aporta experiencia valiosa en AWS Sagemaker.",
-                strengths: ["Máster en Estadística Aplicada", "Stack Técnico Completo (Python, R, SQL, AWS)", "Exp. en Modelos Predictivos y NLP", "Residencia en Oviedo"],
-                gaps: ["Ninguno significativo detectado"],
-                questions: [{ text: "Cuéntanos sobre el modelo de Machine Learning más complejo que hayas puesto en producción.", reason: "Profundizar en Experiencia" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Elena",
+                    lastname: "Mayor",
+                    email: "elena.mayor@mail.com",
+                    phone: "+34 622 33 44 55",
+                    linkedin: "linkedin.com/in/emayor",
+                    country: "España",
+                    city: "Oviedo",
+                    gender: "Femenino",
+                    birthdate: "14/07/1991",
+                    cvLink: "cv_elena.pdf"
+                },
+                summary: "<strong>Candidato Top Performer.</strong> Máster en Estadística y 4 años de experiencia directa.",
+                strengths: ["Máster en Estadística", "Python, R, SQL, AWS", "Residencia en Oviedo"],
+                gaps: ["Ninguno significativo"],
+                questions: [
+                    { text: "Cuéntanos sobre el modelo de ML más complejo que hayas puesto en producción.", reason: "Profundizar" },
+                    { text: "Veo experiencia en AWS. ¿Has trabajado con despliegues de modelos usando Docker o Kubernetes?", reason: "Indagar Skill MLOps" },
+                    { text: "¿Has trabajado con pipelines de Big Data (Spark/Hadoop)?", reason: "Indagar Skill no mencionado" },
+                    { text: "¿Cómo monitorizas el 'data drift' de tus modelos en producción?", reason: "Validar Experiencia Senior" }
+                ]
             },
             {
                 id: 302,
@@ -142,10 +371,28 @@ const offersData = {
                 initials: "PS",
                 matchScore: 70,
                 status: 'pending',
-                summary: "<strong>Perfil Analista fuerte, Científico en desarrollo.</strong> Pablo es un experto en SQL y PowerBI (Visualización), ideal para la parte de reporte. Sin embargo, su experiencia en modelado predictivo (Machine Learning) y Python profundo es limitada comparada con un Data Scientist puro.",
-                strengths: ["Experto en SQL y PowerBI", "Gran capacidad de comunicación y negocio", "Limpieza de datos (Data Wrangling)"],
-                gaps: ["Falta profundidad en TensorFlow/PyTorch", "Poca experiencia en Cloud (AWS/Google)"],
-                questions: [{ text: "Veo mucha experiencia en Análisis descriptivo. ¿Qué experiencia tienes creando modelos predictivos desde cero con Python?", reason: "Validar Competencia Core (ML)" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Pablo",
+                    lastname: "Suárez",
+                    email: "pablo.suarez@mail.com",
+                    phone: "+34 633 44 55 66",
+                    linkedin: "linkedin.com/in/psuarez-data",
+                    country: "España",
+                    city: "Vigo",
+                    gender: "Masculino",
+                    birthdate: "05/05/1993",
+                    cvLink: "cv_pablo.pdf"
+                },
+                summary: "<strong>Perfil Analista fuerte.</strong> Experto en SQL y PowerBI, ideal para reporte, pero limitado en ML/Python profundo.",
+                strengths: ["Experto en SQL y PowerBI", "Comunicación y Negocio"],
+                gaps: ["Falta profundidad en TensorFlow", "Poca experiencia Cloud"],
+                questions: [
+                    { text: "¿Qué experiencia tienes creando modelos predictivos desde cero?", reason: "Validar Competencia Core" },
+                    { text: "Más allá de la visualización, ¿tienes conocimientos de estadística para realizar test A/B?", reason: "Indagar Base Teórica" },
+                    { text: "¿Estarías dispuesto a formarte intensivamente en AWS Sagemaker?", reason: "Validar Interés de Aprendizaje" }
+                ]
             },
             {
                 id: 303,
@@ -155,10 +402,28 @@ const offersData = {
                 initials: "CD",
                 matchScore: 65,
                 status: 'pending',
-                summary: "<strong>Perfil Académico.</strong> Doctora en Matemáticas. Su conocimiento teórico de algoritmos es excepcional (Redes Neuronales, Regresión). El riesgo principal es su nula experiencia en entornos corporativos, herramientas de despliegue (Docker/Cloud) y negocio.",
-                strengths: ["PhD en Matemáticas (Base teórica excelente)", "Conocimiento avanzado de R y Python académico"],
-                gaps: ["Sin experiencia en empresa/negocio", "Desconocimiento de herramientas Cloud (AWS)", "Residencia en Madrid (Oferta en Oviedo/Vigo)"],
-                questions: [{ text: "¿Estarías dispuesta a mudarte a Asturias o Galicia?", reason: "Validar Ubicación" }, { text: "¿Has trabajado alguna vez con control de versiones (Git) en equipos ágiles?", reason: "Validar Adaptación al flujo de trabajo" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Clara",
+                    lastname: "Díaz",
+                    email: "clara.diaz@mail.com",
+                    phone: "+34 644 55 66 77",
+                    linkedin: "linkedin.com/in/claradiaz-phd",
+                    country: "España",
+                    city: "Madrid",
+                    gender: "Femenino",
+                    birthdate: "20/09/1988",
+                    cvLink: "cv_clara.pdf"
+                },
+                summary: "<strong>Perfil Académico.</strong> Doctora en Matemáticas con base teórica excelente pero nula experiencia corporativa.",
+                strengths: ["PhD Matemáticas", "R y Python académico"],
+                gaps: ["Sin experiencia en empresa", "Residencia en Madrid (Oferta Oviedo)"],
+                questions: [
+                    { text: "¿Estarías dispuesta a mudarte a Asturias?", reason: "Validar Ubicación" },
+                    { text: "¿Has trabajado alguna vez con control de versiones (Git) en equipos?", reason: "Validar Flujo de Trabajo" },
+                    { text: "¿Cómo explicarías un algoritmo complejo a un responsable de negocio sin perfil técnico?", reason: "Validar Comunicación" }
+                ]
             },
             {
                 id: 304,
@@ -168,10 +433,67 @@ const offersData = {
                 initials: "RG",
                 matchScore: 40,
                 status: 'pending',
-                summary: "<strong>Perfil Junior Generalista.</strong> Recién graduado en Ingeniería Informática. Tiene las bases teóricas de la carrera, pero su experiencia en Data Science se limita a proyectos universitarios y cursos online. Le falta rodaje para el puesto de 2 años de experiencia.",
-                strengths: ["Grado en Ingeniería Informática", "Residencia en Oviedo", "Nativo Digital"],
-                gaps: ["Experiencia insuficiente (0 años profesionales)", "Portfolio de proyectos escaso"],
-                questions: [{ text: "¿Tienes algún portfolio de proyectos personales en GitHub donde apliques ML?", reason: "Validar Interés y Capacidad Real" }]
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Roberto",
+                    lastname: "Gómez",
+                    email: "roberto.gomez@mail.com",
+                    phone: "+34 655 66 77 88",
+                    linkedin: "linkedin.com/in/rgomez-dev",
+                    country: "España",
+                    city: "Oviedo",
+                    gender: "Masculino",
+                    birthdate: "10/02/2001",
+                    cvLink: "cv_roberto.pdf"
+                },
+                summary: "<strong>Perfil Junior.</strong> Recién graduado con bases teóricas pero falta rodaje profesional.",
+                strengths: ["Grado Ing. Informática", "Residencia en Oviedo"],
+                gaps: ["Experiencia insuficiente", "Portfolio escaso"],
+                questions: [
+                    { text: "¿Tienes algún portfolio personal?", reason: "Validar Capacidad" },
+                    { text: "¿Qué conocimientos tienes de computación en la nube (IaaS, PaaS)?", reason: "Indagar Conocimientos Base" }
+                ]
+            },
+            {
+                id: 305,
+                name: "Sara Rodríguez Cabo",
+                role: "Researcher / Data Scientist",
+                info: "Oviedo | PhD & Master",
+                initials: "SR",
+                matchScore: 96,
+                status: 'pending',
+                interviewRating: null,
+                interviewNotes: "",
+                contact: {
+                    firstname: "Sara",
+                    lastname: "Rodríguez Cabo",
+                    email: "sara24698@gmail.com",
+                    phone: "622 18 99 64",
+                    linkedin: "linkedin.com/in/sara-rodriguez-cabo",
+                    country: "España",
+                    city: "Oviedo",
+                    gender: "Femenino",
+                    birthdate: "24/06/1998",
+                    cvLink: "cv_sara_rodriguez.pdf"
+                },
+                summary: "<strong>Perfil de Excelencia Investigadora.</strong> Sara es Doctora en Ciencias Espaciales con doble grado en Física y Matemáticas. Su perfil técnico es sobresaliente.",
+                strengths: [
+                    "Doctorado y Doble Grado (Física/Mates)",
+                    "Exp. Internacional (Univ. Tokyo) y Grandes Proyectos (Hyper-K)",
+                    "Stack Avanzado: Python, TensorFlow, CUDA, SQL",
+                    "Inglés C1 (Advanced) y Soft Skills de comunicación"
+                ],
+                gaps: [
+                    "Trayectoria puramente académica/investigadora",
+                    "Adaptación de ritmos de investigación a negocio"
+                ],
+                questions: [
+                    { text: "Tu experiencia es impresionante en investigación. ¿Por qué buscas dar el salto al sector corporativo ahora?", reason: "Validar Motivación y Cambio de Mindset" },
+                    { text: "Cuéntanos sobre tu proyecto de emprendimiento en TalentUO Lab.", reason: "Validar Soft Skills / Visión de Negocio" },
+                    { text: "Has trabajado con volúmenes de datos astronómicos. ¿Qué experiencia tienes con herramientas de streaming como Kafka?", reason: "Indagar Hard Skill no mencionado" },
+                    { text: "¿Cómo aseguras que tus modelos de Deep Learning no tengan sesgos al entrenarlos?", reason: "Validar Ética IA" }
+                ]
             }
         ]
     }
@@ -179,7 +501,7 @@ const offersData = {
 
 // --- ESTADO GLOBAL ---
 let currentOfferKey = '';
-let currentTab = 'candidates'; // 'candidates' (Candidaturas + Descartados) | 'process' (Convocados)
+let currentTab = 'candidates'; 
 
 // --- FUNCIONES DE NAVEGACIÓN ---
 
@@ -191,27 +513,19 @@ function showOffers() {
 
 function showDashboard(offerKey) {
     currentOfferKey = offerKey;
-    currentTab = 'candidates'; // Resetear a la pestaña principal al entrar
+    currentTab = 'candidates';
     const offer = offersData[offerKey];
     
     if (!offer) return;
-
-    // 1. Cambio de Vista
     document.getElementById('view-offers').classList.add('hidden');
     document.getElementById('view-dashboard').classList.remove('hidden');
-    
-    // 2. Renderizar inicial
     switchTab('candidates');
 }
 
-// Nueva función para gestión de pestañas
 function switchTab(tabName) {
     currentTab = tabName;
-    
-    // Actualizar botones de pestaña
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(`tab-${tabName}`).classList.add('active');
-    
     renderCandidateList();
     updateBreadcrumb();
 }
@@ -228,40 +542,48 @@ function renderCandidateList() {
     const listContainer = document.getElementById('candidate-list-container');
     listContainer.innerHTML = ''; 
     
-    // Filtrado y Ordenación
     let filteredList = [];
     
     if (currentTab === 'candidates') {
-        // En "Candidaturas" mostramos PENDIENTES arriba y DESCARTADOS al fondo
-        const pending = offer.candidates.filter(c => c.status === 'pending');
-        const discarded = offer.candidates.filter(c => c.status === 'discarded');
+        // Filtramos
+        let pending = offer.candidates.filter(c => c.status === 'pending');
+        let discarded = offer.candidates.filter(c => c.status === 'discarded');
+
+        // --- ORDENACIÓN: MAYOR A MENOR MATCH ---
+        pending.sort((a, b) => b.matchScore - a.matchScore);
+        discarded.sort((a, b) => b.matchScore - a.matchScore);
+
+        // Concatenamos: Primero pendientes ordenados, luego descartados ordenados al final
         filteredList = [...pending, ...discarded];
         document.getElementById('list-title').textContent = `Candidaturas (${filteredList.length})`;
+
     } else {
-        // En "Proceso" solo mostramos CONVOCADOS ('selected')
-        filteredList = offer.candidates.filter(c => c.status === 'selected');
+        // Filtramos 'selected' (En Proceso)
+        let selected = offer.candidates.filter(c => c.status === 'selected');
+        
+        // --- ORDENACIÓN: MAYOR A MENOR MATCH ---
+        selected.sort((a, b) => b.matchScore - a.matchScore);
+
+        filteredList = selected;
         document.getElementById('list-title').textContent = `En Proceso (${filteredList.length})`;
     }
 
     document.getElementById('list-subtitle').textContent = `Oferta: ${offer.title}`;
 
     if (filteredList.length === 0) {
-        listContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">No hay perfiles en esta sección.</div>';
-        // Ocultar detalle si no hay nadie
+        listContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">No hay perfiles en esta fase.</div>';
         document.querySelector('.candidate-detail').style.visibility = 'hidden';
         return;
     } else {
         document.querySelector('.candidate-detail').style.visibility = 'visible';
     }
 
-    // Generar HTML
     filteredList.forEach(cand => {
         let badgeClass = 'match-low';
         if (cand.matchScore >= 90) badgeClass = 'match-90';
         else if (cand.matchScore >= 60) badgeClass = 'match-70';
         else badgeClass = 'match-30';
 
-        // Clase especial si está descartado
         const isDiscarded = cand.status === 'discarded';
         const cardClass = isDiscarded ? 'candidate-card card-discarded' : 'candidate-card';
         const nameSuffix = isDiscarded ? ' <span style="font-size:0.7em; color:var(--danger); font-weight:800; text-transform:uppercase;">(Descartado)</span>' : '';
@@ -281,26 +603,23 @@ function renderCandidateList() {
         listContainer.innerHTML += cardHtml;
     });
 
-    // Cargar automáticamente al primero de la lista visible
-    if(filteredList.length > 0) {
-        loadCandidate(filteredList[0].id);
-    }
+    // Cargar automáticamente al primero si no hay selección manual previa (o siempre el primero al cambiar tab)
+    if(filteredList.length > 0) loadCandidate(filteredList[0].id);
 }
 
-// --- LÓGICA DE CARGA DE CANDIDATO ---
+// --- LÓGICA DE CARGA DE CANDIDATO Y DETALLE ---
 
 function loadCandidate(id) {
     const candidates = offersData[currentOfferKey].candidates;
     const data = candidates.find(c => c.id === id);
-    
     if (!data) return;
 
-    // 1. Actualizar visual (clase 'active')
+    // Resaltar en lista
     document.querySelectorAll('.candidate-card').forEach(card => card.classList.remove('active'));
     const activeCard = document.getElementById(`card-${id}`);
     if(activeCard) activeCard.classList.add('active');
 
-    // 2. Inyectar datos
+    // Cabecera Básica
     document.getElementById('d-initials').textContent = data.initials;
     document.getElementById('d-name').textContent = data.name;
     document.getElementById('d-info').innerHTML = `
@@ -308,84 +627,178 @@ function loadCandidate(id) {
         <i class="fa-solid fa-location-dot"></i> ${data.info}
     `;
     
-    // Score
+    // INFORMACIÓN DE CONTACTO
+    const contactHtml = `
+        <div class="contact-section">
+            <h5 class="section-subtitle"><i class="fa-solid fa-address-card"></i> Información de Contacto</h5>
+            <div class="contact-grid">
+                <div class="c-item"><label>Nombre</label><span>${data.contact.firstname}</span></div>
+                <div class="c-item"><label>Apellidos</label><span>${data.contact.lastname}</span></div>
+                <div class="c-item"><label>Email</label><span>${data.contact.email}</span></div>
+                <div class="c-item"><label>Teléfono</label><span><img src="https://flagcdn.com/w20/es.png" width="15"> ${data.contact.phone}</span></div>
+                <div class="c-item"><label>LinkedIn</label><a href="#" style="color:var(--color-brand)">${data.contact.linkedin}</a></div>
+                <div class="c-item"><label>País</label><span>${data.contact.country}</span></div>
+                <div class="c-item"><label>Ciudad</label><span>${data.contact.city}</span></div>
+                <div class="c-item"><label>Sexo</label><span>${data.contact.gender}</span></div>
+                <div class="c-item"><label>Fecha Nac.</label><span>${data.contact.birthdate}</span></div>
+            </div>
+        </div>
+    `;
+    const contactContainer = document.getElementById('d-contact-container');
+    if(contactContainer) contactContainer.innerHTML = contactHtml;
+
+    // Score Ring y Rating
     const ring = document.getElementById('d-ring');
     document.getElementById('d-score').textContent = data.matchScore;
+    
     let color = '#dc3545';
     if(data.matchScore >= 90) color = '#28a745';
     else if(data.matchScore >= 60) color = '#d98a00';
     ring.style.borderColor = color;
     document.getElementById('d-score').style.color = color;
 
-    document.getElementById('d-summary').innerHTML = data.summary;
+    // Rating
+    const ratingContainer = document.getElementById('d-rating-faces');
+    if (data.status === 'selected') {
+        ratingContainer.classList.remove('hidden');
+        ratingContainer.innerHTML = generateRatingHTML(data.id, data.interviewRating);
+    } else {
+        ratingContainer.classList.add('hidden');
+    }
 
-    // Listas
+    // Datos IA
+    document.getElementById('d-summary').innerHTML = data.summary;
     const strList = document.getElementById('d-strengths');
     strList.innerHTML = '';
     data.strengths.forEach(s => strList.innerHTML += `<li><i class="fa-solid fa-check" style="color: var(--success);"></i> ${s}</li>`);
-
+    
     const gapList = document.getElementById('d-gaps');
     gapList.innerHTML = '';
     if(data.gaps.length > 0) data.gaps.forEach(g => gapList.innerHTML += `<li><i class="fa-solid fa-circle-exclamation" style="color: var(--warning);"></i> ${g}</li>`);
     else gapList.innerHTML = `<li style="color:var(--cc-text-light)"><i>No se detectaron gaps críticos.</i></li>`;
 
-    // Preguntas
-    const qContainer = document.getElementById('d-questions');
-    qContainer.innerHTML = '';
-    data.questions.forEach(q => {
-        qContainer.innerHTML += `
-            <div class="question-card">
-                <div class="q-text">"${q.text}"</div>
-                <div class="q-reason">MOTIVO: ${q.reason}</div>
-            </div>`;
-    });
-
-    // 3. Renderizar Botones según Estado
+    // Renderizado condicional según estado
     const actionsContainer = document.getElementById('d-actions');
-    actionsContainer.innerHTML = ''; // Limpiar
+    const questionsContainer = document.getElementById('ai-questions-section'); 
+    const interviewContainer = document.getElementById('rh-interview-section'); 
+
+    actionsContainer.innerHTML = ''; 
 
     if (data.status === 'pending') {
+        // VISTA CANDIDATURA
+        questionsContainer.classList.remove('hidden');
+        interviewContainer.classList.add('hidden');
+
+        const qList = document.getElementById('d-questions');
+        qList.innerHTML = '';
+        data.questions.forEach(q => {
+            qList.innerHTML += `
+                <div class="question-card">
+                    <div class="q-text">"${q.text}"</div>
+                    <div class="q-reason">MOTIVO: ${q.reason}</div>
+                </div>`;
+        });
+
         actionsContainer.innerHTML = `
             <button class="btn btn-primary" onclick="changeStatus(${data.id}, 'selected')">
-                <i class="fa-solid fa-check"></i> Convocar
+                <i class="fa-solid fa-check"></i> Convocar a Entrevista
             </button>
             <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'discarded')" style="color: var(--danger); border-color: var(--danger);">
                 <i class="fa-solid fa-xmark"></i> Descartar
             </button>
         `;
+
+    } else if (data.status === 'selected') {
+        // VISTA ENTREVISTA RH
+        questionsContainer.classList.add('hidden');
+        interviewContainer.classList.remove('hidden');
+
+        document.getElementById('interview-notes-area').value = data.interviewNotes || "";
+        document.getElementById('interview-notes-area').oninput = function(e) {
+            saveNotes(data.id, e.target.value);
+        };
+
+        actionsContainer.innerHTML = `
+            <div style="width:100%; display:flex; gap:10px;">
+                <button class="btn btn-primary" style="background-color: var(--color-brand-dark);" onclick="changeStatus(${data.id}, 'technical')">
+                    <i class="fa-solid fa-laptop-code"></i> Pasar a Ev. Técnica
+                </button>
+                <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'discarded')" style="color: var(--danger); border-color: var(--danger);">
+                    <i class="fa-solid fa-xmark"></i> Descartar Definitivamente
+                </button>
+            </div>
+            <div style="margin-top:10px; width:100%; text-align:center;">
+                <small style="color:#888;">El perfil pasará al panel del equipo técnico.</small>
+            </div>
+        `;
+
     } else if (data.status === 'discarded') {
+        questionsContainer.classList.add('hidden');
+        interviewContainer.classList.add('hidden');
+        
         actionsContainer.innerHTML = `
             <div style="width:100%; margin-bottom:10px; color: var(--danger); font-weight:700;">
-                <i class="fa-solid fa-trash-can"></i> Este candidato ha sido descartado.
+                <i class="fa-solid fa-trash-can"></i> Candidato Descartado.
             </div>
             <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'pending')">
                 <i class="fa-solid fa-arrow-rotate-left"></i> Recuperar Candidatura
             </button>
         `;
-    } else if (data.status === 'selected') {
-        actionsContainer.innerHTML = `
-            <div style="width:100%; margin-bottom:10px; color: var(--success); font-weight:700;">
-                <i class="fa-solid fa-user-check"></i> Candidato en proceso de selección.
-            </div>
-            <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'pending')">
-                <i class="fa-solid fa-arrow-left"></i> Devolver a Candidaturas
-            </button>
-        `;
+    } else if (data.status === 'technical') {
+        actionsContainer.innerHTML = `<div>En Evaluación Técnica</div>`;
     }
 }
 
-// Función para cambiar estado
+// --- UTILIDADES ---
+
 function changeStatus(id, newStatus) {
     const candidate = offersData[currentOfferKey].candidates.find(c => c.id === id);
     if (candidate) {
         candidate.status = newStatus;
-        
-        // Si convocamos, vamos a la pestaña de proceso automáticamente
         if (newStatus === 'selected') {
             switchTab('process');
+        } else if (newStatus === 'technical') {
+            alert(`El candidato ${candidate.name} ha sido enviado al equipo de Evaluación Técnica.`);
+            renderCandidateList(); 
         } else {
-            // Si descartamos o recuperamos, refrescamos la lista actual
             renderCandidateList();
         }
     }
+}
+
+function saveNotes(id, notes) {
+    const candidate = offersData[currentOfferKey].candidates.find(c => c.id === id);
+    if(candidate) candidate.interviewNotes = notes;
+}
+
+function setRating(id, rating) {
+    const candidate = offersData[currentOfferKey].candidates.find(c => c.id === id);
+    if(candidate) {
+        candidate.interviewRating = rating;
+        document.getElementById('d-rating-faces').innerHTML = generateRatingHTML(id, rating);
+    }
+}
+
+function generateRatingHTML(id, currentRating) {
+    const opacitySad = currentRating === 1 ? '1' : '0.3';
+    const opacityMeh = currentRating === 2 ? '1' : '0.3';
+    const opacityHappy = currentRating === 3 ? '1' : '0.3';
+    
+    const scaleSad = currentRating === 1 ? 'scale(1.2)' : 'scale(1)';
+    const scaleMeh = currentRating === 2 ? 'scale(1.2)' : 'scale(1)';
+    const scaleHappy = currentRating === 3 ? 'scale(1.2)' : 'scale(1)';
+
+    return `
+        <div class="rating-wrapper">
+            <i class="fa-solid fa-face-frown" 
+               style="color: #dc3545; opacity: ${opacitySad}; transform: ${scaleSad};" 
+               onclick="setRating(${id}, 1)" title="No apto"></i>
+            <i class="fa-solid fa-face-meh" 
+               style="color: #ffc107; opacity: ${opacityMeh}; transform: ${scaleMeh};" 
+               onclick="setRating(${id}, 2)" title="Dudoso"></i>
+            <i class="fa-solid fa-face-smile" 
+               style="color: #28a745; opacity: ${opacityHappy}; transform: ${scaleHappy};" 
+               onclick="setRating(${id}, 3)" title="Apto"></i>
+        </div>
+    `;
 }
