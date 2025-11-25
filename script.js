@@ -1,4 +1,4 @@
-// --- BASE DE DATOS SIMULADA ---
+// --- BASE DE DATOS (Tu versión completa) ---
 const offersData = {
     'analista': {
         title: "Analista Funcional",
@@ -11,7 +11,7 @@ const offersData = {
                 info: "Madrid | 4 Años Exp",
                 initials: "CM",
                 matchScore: 95,
-                status: 'pending', 
+                status: 'pending',
                 interviewRating: null,
                 interviewNotes: "",
                 contact: {
@@ -203,25 +203,25 @@ const offersData = {
             },
             {
                 id: 202,
-                name: "Sara García",
-                role: "Helpdesk L1",
-                info: "Gijón | 2 Años Exp",
+                name: "Laura Martínez",
+                role: "Analista de datos",
+                info: "Avilés | 2 Años Exp",
                 initials: "SG",
                 matchScore: 75,
                 status: 'pending',
                 interviewRating: null,
                 interviewNotes: "",
                 contact: {
-                    firstname: "Sara",
-                    lastname: "García",
-                    email: "sara.garcia95@mail.com",
+                    firstname: "Laura",
+                    lastname: "Martínez",
+                    email: "laura_martinezz95@mail.com",
                     phone: "+34 666 12 43 11",
-                    linkedin: "linkedin.com/in/ssaaraaa",
+                    linkedin: "linkedin.com/in/lauramrtnez",
                     country: "España",
                     city: "Gijón",
                     gender: "Femenino",
                     birthdate: "12/04/1995",
-                    cvLink: "cv_sara.pdf"
+                    cvLink: "cv_laura.pdf"
                 },
                 summary: "<strong>Perfil Competente.</strong> Tiene buena base en soporte usuario y gestión de tickets.",
                 strengths: ["Gestión de usuarios y Directorio Activo", "Vehículo propio"],
@@ -502,16 +502,20 @@ const offersData = {
 // --- ESTADO GLOBAL ---
 let currentOfferKey = '';
 let currentTab = 'candidates'; 
+let currentUser = 'recruiter'; // 'recruiter' | 'manager'
 
-// --- FUNCIONES DE NAVEGACIÓN ---
+// --- NAVEGACIÓN ---
 
 function showOffers() {
+    if (currentUser !== 'recruiter') return;
     document.getElementById('view-offers').classList.remove('hidden');
     document.getElementById('view-dashboard').classList.add('hidden');
+    document.getElementById('view-manager').classList.add('hidden');
     document.getElementById('breadcrumb-text').innerHTML = 'Ofertas Activas';
 }
 
 function showDashboard(offerKey) {
+    if (currentUser !== 'recruiter') return;
     currentOfferKey = offerKey;
     currentTab = 'candidates';
     const offer = offersData[offerKey];
@@ -520,6 +524,22 @@ function showDashboard(offerKey) {
     document.getElementById('view-offers').classList.add('hidden');
     document.getElementById('view-dashboard').classList.remove('hidden');
     switchTab('candidates');
+}
+
+function goBackLogic() {
+    if (currentUser === 'manager') {
+        goBackToManagerList();
+    } else {
+        showOffers();
+    }
+}
+
+function goBackToManagerList() {
+    document.getElementById('view-offers').classList.add('hidden');
+    document.getElementById('view-dashboard').classList.add('hidden');
+    document.getElementById('view-manager').classList.remove('hidden');
+    renderManagerView();
+    document.getElementById('breadcrumb-text').innerHTML = "Evaluación Técnica"; 
 }
 
 function switchTab(tabName) {
@@ -532,10 +552,15 @@ function switchTab(tabName) {
 
 function updateBreadcrumb() {
     const offer = offersData[currentOfferKey];
-    const subTitle = currentTab === 'candidates' ? 'Candidaturas' : 'Proceso de Selección';
-    const breadcrumbHtml = `Ofertas Activas > ${offer.title} > <span>${subTitle}</span>`;
-    document.getElementById('breadcrumb-text').innerHTML = breadcrumbHtml;
+    if (currentUser === 'manager') {
+        document.getElementById('breadcrumb-text').innerHTML = `Evaluación técnica > <span>${offer.title}</span>`;
+    } else {
+        const subTitle = currentTab === 'candidates' ? 'Candidaturas' : 'Proceso de Selección';
+        document.getElementById('breadcrumb-text').innerHTML = `Ofertas Activas > ${offer.title} > <span>${subTitle}</span>`;
+    }
 }
+
+// --- RENDERIZADO DE LISTAS ---
 
 function renderCandidateList() {
     const offer = offersData[currentOfferKey];
@@ -544,34 +569,38 @@ function renderCandidateList() {
     
     let filteredList = [];
     
-    if (currentTab === 'candidates') {
-        // Filtramos
-        let pending = offer.candidates.filter(c => c.status === 'pending');
-        let discarded = offer.candidates.filter(c => c.status === 'discarded');
-
-        // --- ORDENACIÓN: MAYOR A MENOR MATCH ---
-        pending.sort((a, b) => b.matchScore - a.matchScore);
-        discarded.sort((a, b) => b.matchScore - a.matchScore);
-
-        // Concatenamos: Primero pendientes ordenados, luego descartados ordenados al final
-        filteredList = [...pending, ...discarded];
-        document.getElementById('list-title').textContent = `Candidaturas (${filteredList.length})`;
+    if (currentUser === 'manager') {
+        // MANAGER: Ve pendientes y procesados en la lista lateral
+        filteredList = offer.candidates.filter(c => 
+            c.status === 'technical' || c.status === 'tech_passed' || c.status === 'tech_discarded'
+        );
+        document.getElementById('list-title').textContent = `Candidatos`;
+        document.getElementById('recruiter-tabs').classList.add('hidden');
 
     } else {
-        // Filtramos 'selected' (En Proceso)
-        let selected = offer.candidates.filter(c => c.status === 'selected');
-        
-        // --- ORDENACIÓN: MAYOR A MENOR MATCH ---
-        selected.sort((a, b) => b.matchScore - a.matchScore);
+        // RECRUITER
+        document.getElementById('recruiter-tabs').classList.remove('hidden');
 
-        filteredList = selected;
-        document.getElementById('list-title').textContent = `En Proceso (${filteredList.length})`;
+        if (currentTab === 'candidates') {
+            let pending = offer.candidates.filter(c => c.status === 'pending');
+            let discarded = offer.candidates.filter(c => c.status === 'discarded');
+            pending.sort((a, b) => b.matchScore - a.matchScore);
+            discarded.sort((a, b) => b.matchScore - a.matchScore);
+            filteredList = [...pending, ...discarded];
+            document.getElementById('list-title').textContent = `Candidaturas (${filteredList.length})`;
+        } else {
+            // En Proceso: Selected + Technical + TechPassed + TechDiscarded
+            let selected = offer.candidates.filter(c => c.status === 'selected' || c.status === 'technical' || c.status === 'tech_passed' || c.status === 'tech_discarded');
+            selected.sort((a, b) => b.matchScore - a.matchScore);
+            filteredList = selected;
+            document.getElementById('list-title').textContent = `En Proceso (${filteredList.length})`;
+        }
     }
 
     document.getElementById('list-subtitle').textContent = `Oferta: ${offer.title}`;
 
     if (filteredList.length === 0) {
-        listContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">No hay perfiles en esta fase.</div>';
+        listContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">No hay perfiles.</div>';
         document.querySelector('.candidate-detail').style.visibility = 'hidden';
         return;
     } else {
@@ -582,91 +611,62 @@ function renderCandidateList() {
         let badgeClass = 'match-low';
         if (cand.matchScore >= 90) badgeClass = 'match-90';
         else if (cand.matchScore >= 60) badgeClass = 'match-70';
-        else badgeClass = 'match-30';
 
-        const isDiscarded = cand.status === 'discarded';
+        let extraIcon = '';
+        if (cand.status === 'tech_passed') extraIcon = '<i class="fa-solid fa-check" style="color:var(--success)"></i> ';
+        else if (cand.status === 'tech_discarded') extraIcon = '<i class="fa-solid fa-ban" style="color:#999"></i> ';
+        else if (cand.status === 'technical' && currentUser === 'recruiter') extraIcon = '<i class="fa-solid fa-laptop-code" style="color:var(--color-brand)" title="En Evaluación Técnica"></i> ';
+
+        // Si está descartado (por HR o Técnico), usamos la clase gris
+        const isDiscarded = cand.status === 'discarded' || cand.status === 'tech_discarded';
         const cardClass = isDiscarded ? 'candidate-card card-discarded' : 'candidate-card';
-        const nameSuffix = isDiscarded ? ' <span style="font-size:0.7em; color:var(--danger); font-weight:800; text-transform:uppercase;">(Descartado)</span>' : '';
 
         const cardHtml = `
             <article class="${cardClass}" id="card-${cand.id}" onclick="loadCandidate(${cand.id})">
                 <div class="card-header-row">
-                    <span class="c-name">${cand.name} ${nameSuffix}</span>
+                    <span class="c-name">${extraIcon}${cand.name}</span>
                     <span class="match-badge ${badgeClass}">${cand.matchScore}%</span>
                 </div>
                 <div class="c-role">${cand.role}</div>
-                <div class="skill-tags">
-                     <span class="tag">${cand.info.split('|')[0].trim()}</span>
-                </div>
             </article>
         `;
         listContainer.innerHTML += cardHtml;
     });
-
-    // Cargar automáticamente al primero si no hay selección manual previa (o siempre el primero al cambiar tab)
-    if(filteredList.length > 0) loadCandidate(filteredList[0].id);
 }
-
-// --- LÓGICA DE CARGA DE CANDIDATO Y DETALLE ---
 
 function loadCandidate(id) {
     const candidates = offersData[currentOfferKey].candidates;
     const data = candidates.find(c => c.id === id);
     if (!data) return;
 
-    // Resaltar en lista
+    // Resaltar
     document.querySelectorAll('.candidate-card').forEach(card => card.classList.remove('active'));
     const activeCard = document.getElementById(`card-${id}`);
     if(activeCard) activeCard.classList.add('active');
 
-    // Cabecera Básica
+    // Datos Básicos
     document.getElementById('d-initials').textContent = data.initials;
     document.getElementById('d-name').textContent = data.name;
-    document.getElementById('d-info').innerHTML = `
-        <i class="fa-solid fa-user-tie"></i> ${data.role} &nbsp;|&nbsp; 
-        <i class="fa-solid fa-location-dot"></i> ${data.info}
-    `;
+    document.getElementById('d-info').innerHTML = `<i class="fa-solid fa-user-tie"></i> ${data.role} | ${data.info}`;
     
-    // INFORMACIÓN DE CONTACTO
-    const contactHtml = `
-        <div class="contact-section">
-            <h5 class="section-subtitle"><i class="fa-solid fa-address-card"></i> Información de Contacto</h5>
-            <div class="contact-grid">
-                <div class="c-item"><label>Nombre</label><span>${data.contact.firstname}</span></div>
-                <div class="c-item"><label>Apellidos</label><span>${data.contact.lastname}</span></div>
-                <div class="c-item"><label>Email</label><span>${data.contact.email}</span></div>
-                <div class="c-item"><label>Teléfono</label><span><img src="https://flagcdn.com/w20/es.png" width="15"> ${data.contact.phone}</span></div>
-                <div class="c-item"><label>LinkedIn</label><a href="#" style="color:var(--color-brand)">${data.contact.linkedin}</a></div>
-                <div class="c-item"><label>País</label><span>${data.contact.country}</span></div>
-                <div class="c-item"><label>Ciudad</label><span>${data.contact.city}</span></div>
-                <div class="c-item"><label>Sexo</label><span>${data.contact.gender}</span></div>
-                <div class="c-item"><label>Fecha Nac.</label><span>${data.contact.birthdate}</span></div>
-            </div>
-        </div>
-    `;
-    const contactContainer = document.getElementById('d-contact-container');
-    if(contactContainer) contactContainer.innerHTML = contactHtml;
-
-    // Score Ring y Rating
-    const ring = document.getElementById('d-ring');
+    // Contacto
+    document.getElementById('d-contact-container').innerHTML = `
+        <div style="font-size:0.9rem; margin-bottom:10px;">
+            <i class="fa-regular fa-envelope"></i> ${data.contact.email} &nbsp;&nbsp; 
+            <i class="fa-solid fa-phone"></i> ${data.contact.phone}
+        </div>`;
     document.getElementById('d-score').textContent = data.matchScore;
     
-    let color = '#dc3545';
-    if(data.matchScore >= 90) color = '#28a745';
-    else if(data.matchScore >= 60) color = '#d98a00';
-    ring.style.borderColor = color;
-    document.getElementById('d-score').style.color = color;
-
-    // Rating
+    // Rating Faces
     const ratingContainer = document.getElementById('d-rating-faces');
-    if (data.status === 'selected') {
+    if(data.status !== 'pending' && data.status !== 'discarded') {
         ratingContainer.classList.remove('hidden');
-        ratingContainer.innerHTML = generateRatingHTML(data.id, data.interviewRating);
+        const isReadOnly = (currentUser === 'manager' || data.status === 'tech_passed' || data.status === 'tech_discarded');
+        ratingContainer.innerHTML = generateRatingHTML(data.id, data.interviewRating, isReadOnly);
     } else {
         ratingContainer.classList.add('hidden');
     }
 
-    // Datos IA
     document.getElementById('d-summary').innerHTML = data.summary;
     const strList = document.getElementById('d-strengths');
     strList.innerHTML = '';
@@ -677,92 +677,240 @@ function loadCandidate(id) {
     if(data.gaps.length > 0) data.gaps.forEach(g => gapList.innerHTML += `<li><i class="fa-solid fa-circle-exclamation" style="color: var(--warning);"></i> ${g}</li>`);
     else gapList.innerHTML = `<li style="color:var(--cc-text-light)"><i>No se detectaron gaps críticos.</i></li>`;
 
-    // Renderizado condicional según estado
+
     const actionsContainer = document.getElementById('d-actions');
     const questionsContainer = document.getElementById('ai-questions-section'); 
     const interviewContainer = document.getElementById('rh-interview-section'); 
+    const techContainer = document.getElementById('tech-evaluation-section');
+    const notesArea = document.getElementById('interview-notes-area');
+    const techNotesArea = document.getElementById('tech-notes-area');
 
-    actionsContainer.innerHTML = ''; 
+    // Resetear visibilidad
+    questionsContainer.classList.add('hidden');
+    interviewContainer.classList.add('hidden');
+    techContainer.classList.add('hidden');
+    notesArea.disabled = false; notesArea.classList.remove('read-only');
+    techNotesArea.disabled = false; techNotesArea.classList.remove('read-only');
 
-    if (data.status === 'pending') {
-        // VISTA CANDIDATURA
-        questionsContainer.classList.remove('hidden');
-        interviewContainer.classList.add('hidden');
+    // --- LÓGICA DE VISTA SEGÚN USUARIO ---
 
-        const qList = document.getElementById('d-questions');
-        qList.innerHTML = '';
-        data.questions.forEach(q => {
-            qList.innerHTML += `
-                <div class="question-card">
-                    <div class="q-text">"${q.text}"</div>
-                    <div class="q-reason">MOTIVO: ${q.reason}</div>
-                </div>`;
-        });
-
-        actionsContainer.innerHTML = `
-            <button class="btn btn-primary" onclick="changeStatus(${data.id}, 'selected')">
-                <i class="fa-solid fa-check"></i> Convocar a Entrevista
-            </button>
-            <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'discarded')" style="color: var(--danger); border-color: var(--danger);">
-                <i class="fa-solid fa-xmark"></i> Descartar
-            </button>
-        `;
-
-    } else if (data.status === 'selected') {
-        // VISTA ENTREVISTA RH
+    if (currentUser === 'manager') {
+        // MANAGER VIEW
         questionsContainer.classList.add('hidden');
-        interviewContainer.classList.remove('hidden');
-
-        document.getElementById('interview-notes-area').value = data.interviewNotes || "";
-        document.getElementById('interview-notes-area').oninput = function(e) {
-            saveNotes(data.id, e.target.value);
-        };
-
-        actionsContainer.innerHTML = `
-            <div style="width:100%; display:flex; gap:10px;">
-                <button class="btn btn-primary" style="background-color: var(--color-brand-dark);" onclick="changeStatus(${data.id}, 'technical')">
-                    <i class="fa-solid fa-laptop-code"></i> Pasar a Ev. Técnica
-                </button>
-                <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'discarded')" style="color: var(--danger); border-color: var(--danger);">
-                    <i class="fa-solid fa-xmark"></i> Descartar Definitivamente
-                </button>
-            </div>
-            <div style="margin-top:10px; width:100%; text-align:center;">
-                <small style="color:#888;">El perfil pasará al panel del equipo técnico.</small>
-            </div>
-        `;
-
-    } else if (data.status === 'discarded') {
-        questionsContainer.classList.add('hidden');
-        interviewContainer.classList.add('hidden');
         
-        actionsContainer.innerHTML = `
-            <div style="width:100%; margin-bottom:10px; color: var(--danger); font-weight:700;">
-                <i class="fa-solid fa-trash-can"></i> Candidato Descartado.
-            </div>
-            <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'pending')">
-                <i class="fa-solid fa-arrow-rotate-left"></i> Recuperar Candidatura
-            </button>
-        `;
-    } else if (data.status === 'technical') {
-        actionsContainer.innerHTML = `<div>En Evaluación Técnica</div>`;
+        // Ver Notas RH (Read Only)
+        interviewContainer.classList.remove('hidden');
+        document.getElementById('rh-title').innerHTML = '<i class="fa-solid fa-user-pen"></i> Feedback de RRHH (Lectura)';
+        notesArea.value = data.interviewNotes || "Sin comentarios.";
+        notesArea.disabled = true; notesArea.classList.add('read-only');
+
+        // Sección Técnica
+        techContainer.classList.remove('hidden');
+        techNotesArea.value = data.techNotes || "";
+
+        if (data.status === 'technical') {
+            // PENDIENTE
+            actionsContainer.innerHTML = `
+                <button class="btn btn-primary" onclick="setTechStatus(${data.id}, 'tech_passed')">
+                    <i class="fa-solid fa-thumbs-up"></i> Apto Técnico
+                </button>
+                <button class="btn btn-secondary" onclick="setTechStatus(${data.id}, 'tech_discarded')" style="color: var(--danger); border-color: var(--danger);">
+                    <i class="fa-solid fa-thumbs-down"></i> No Apto
+                </button>
+            `;
+        } else {
+            // PROCESADO
+            techNotesArea.disabled = true; techNotesArea.classList.add('read-only');
+            let statusText = data.status === 'tech_passed' ? "APTO TÉCNICO" : "NO APTO TÉCNICO";
+            let color = data.status === 'tech_passed' ? "var(--success)" : "var(--danger)";
+            actionsContainer.innerHTML = `<div style="width:100%; text-align:center; font-weight:700; color:${color}; border:1px solid ${color}; padding:10px; border-radius:6px;">${statusText}</div>`;
+        }
+
+    } else {
+        // RECRUITER VIEW (HR)
+        document.getElementById('rh-title').innerHTML = '<i class="fa-solid fa-user-pen"></i> Notas de Entrevista (RH)';
+        
+        if (data.status === 'pending') {
+            questionsContainer.classList.remove('hidden');
+            const qList = document.getElementById('d-questions');
+            qList.innerHTML = '';
+            data.questions.forEach(q => qList.innerHTML += `<div class="question-card"><div class="q-text">"${q.text}"</div></div>`);
+            
+            actionsContainer.innerHTML = `
+                <button class="btn btn-primary" onclick="changeStatus(${data.id}, 'selected')"><i class="fa-solid fa-check"></i> Convocar</button>
+                <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'discarded')" style="color:var(--danger)"><i class="fa-solid fa-xmark"></i> Descartar</button>
+            `;
+        } else if (data.status === 'selected') {
+            interviewContainer.classList.remove('hidden');
+            notesArea.value = data.interviewNotes || "";
+            notesArea.oninput = function(e) { saveNotes(data.id, e.target.value); };
+            
+            actionsContainer.innerHTML = `
+                <div style="width:100%; display:flex; gap:10px;">
+                    <button class="btn btn-primary" style="background-color: var(--color-brand-dark);" onclick="changeStatus(${data.id}, 'technical')">
+                        <i class="fa-solid fa-laptop-code"></i> Pasar a Ev. Técnica
+                    </button>
+                    <button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'discarded')" style="color: var(--danger);">
+                        <i class="fa-solid fa-xmark"></i> Descartar
+                    </button>
+                </div>
+            `;
+        } else if (data.status === 'technical' || data.status === 'tech_passed' || data.status === 'tech_discarded') {
+            // HR ve que está en técnico o ya volvió
+            interviewContainer.classList.remove('hidden');
+            notesArea.value = data.interviewNotes || "";
+            
+            if(data.techNotes) {
+                techContainer.classList.remove('hidden');
+                techNotesArea.value = data.techNotes;
+                techNotesArea.disabled = true; techNotesArea.classList.add('read-only');
+            }
+
+            let statusLabel = "En Evaluación Técnica";
+            let statusColor = "var(--color-brand)";
+            let statusIcon = "fa-laptop-code";
+            
+            if(data.status === 'tech_passed') {
+                statusLabel = "Aprobado por Técnico";
+                statusColor = "var(--success)";
+                statusIcon = "fa-check";
+            } else if(data.status === 'tech_discarded') {
+                statusLabel = "Rechazado por Técnico";
+                statusColor = "#999"; 
+                statusIcon = "fa-ban";
+            }
+
+            actionsContainer.innerHTML = `
+                <div style="width:100%; text-align:center; font-weight:700; color:${statusColor}; border:1px solid ${statusColor}; padding:10px; border-radius:6px;">
+                    <i class="fa-solid ${statusIcon}"></i> Estado: ${statusLabel}
+                </div>`;
+            
+        } else if (data.status === 'discarded') {
+             actionsContainer.innerHTML = `<button class="btn btn-secondary" onclick="changeStatus(${data.id}, 'pending')">Recuperar</button>`;
+        }
     }
 }
 
+// --- LOGICA MANAGER: LISTA AGRUPADA ---
+function renderManagerView() {
+    const container = document.getElementById('manager-container');
+    container.innerHTML = '';
+    
+    const offerKeys = Object.keys(offersData);
+    let hasAnyData = false;
+
+    offerKeys.forEach(key => {
+        const offer = offersData[key];
+        const pending = offer.candidates.filter(c => c.status === 'technical');
+        const processed = offer.candidates.filter(c => c.status === 'tech_passed' || c.status === 'tech_discarded');
+        
+        if (pending.length === 0 && processed.length === 0) return;
+        hasAnyData = true;
+
+        pending.sort((a,b) => b.matchScore - a.matchScore);
+        processed.sort((a,b) => b.matchScore - a.matchScore);
+
+        const groupHtml = `
+            <div class="offer-group">
+                <div class="group-header">
+                    <div class="gh-title">${offer.title}</div>
+                    <div class="gh-meta">Total: ${pending.length + processed.length}</div>
+                </div>
+                <div class="group-lists">
+                    <div class="list-col">
+                        <div class="col-title"><i class="fa-regular fa-clock"></i> Pendientes (${pending.length})</div>
+                        ${pending.length === 0 ? '<small style="color:#ccc">Sin pendientes</small>' : ''}
+                        ${pending.map(c => createMiniCard(c, key)).join('')}
+                    </div>
+                    <div class="list-col">
+                        <div class="col-title"><i class="fa-solid fa-check-double"></i> Procesados (${processed.length})</div>
+                        ${processed.length === 0 ? '<small style="color:#ccc">Sin procesados</small>' : ''}
+                        ${processed.map(c => createMiniCard(c, key)).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += groupHtml;
+    });
+
+    if (!hasAnyData) container.innerHTML = '<p style="text-align:center; color:#888; padding:2rem;">No hay candidaturas asignadas.</p>';
+}
+
+function createMiniCard(c, offerKey) {
+    let ratingIcon = '';
+    if (c.interviewRating === 3) ratingIcon = '<i class="fa-solid fa-face-smile" style="color:var(--success)"></i>';
+    else if (c.interviewRating === 2) ratingIcon = '<i class="fa-solid fa-face-meh" style="color:var(--warning)"></i>';
+    else if (c.interviewRating === 1) ratingIcon = '<i class="fa-solid fa-face-frown" style="color:var(--danger)"></i>';
+
+    let statusBadge = '';
+    if (c.status === 'tech_passed') statusBadge = '<div class="tech-status ts-passed">Apto</div>';
+    if (c.status === 'tech_discarded') statusBadge = '<div class="tech-status ts-discarded">Descartado</div>';
+
+    return `
+        <div class="manager-card" onclick="goToManagerDetail('${offerKey}', ${c.id})">
+            <div style="display:flex; justify-content:space-between;">
+                <span style="font-weight:700; color:var(--cc-text);">${c.name}</span>
+                <span style="font-size:0.8rem; font-weight:700; color:var(--color-brand);">${c.matchScore}%</span>
+            </div>
+            <div style="font-size:0.8rem; color:#666; margin-top:4px;">${c.role}</div>
+            <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:flex-end;">
+                <div title="Valoración RRHH">${ratingIcon}</div>
+                ${statusBadge}
+            </div>
+        </div>
+    `;
+}
+
+function goToManagerDetail(offerKey, candidateId) {
+    currentOfferKey = offerKey;
+    document.getElementById('view-manager').classList.add('hidden');
+    document.getElementById('view-dashboard').classList.remove('hidden');
+    updateBreadcrumb();
+    renderCandidateList();
+    loadCandidate(candidateId);
+}
+
 // --- UTILIDADES ---
+function setTechStatus(id, newStatus) {
+    const candidate = offersData[currentOfferKey].candidates.find(c => c.id === id);
+    if (candidate) {
+        candidate.status = newStatus;
+        candidate.techNotes = document.getElementById('tech-notes-area').value;
+        alert("Evaluación guardada.");
+        loadCandidate(id);
+        renderCandidateList();
+    }
+}
+
+function toggleUser() {
+    const nameEl = document.getElementById('user-name');
+    const roleEl = document.getElementById('user-role');
+    const avatarEl = document.getElementById('user-avatar');
+    
+    if (currentUser === 'recruiter') {
+        currentUser = 'manager';
+        nameEl.textContent = "Pedro Jiménez"; roleEl.textContent = "Departamento IT";
+        avatarEl.textContent = "PJ"; avatarEl.style.backgroundColor = "#2c3e50"; avatarEl.style.color = "white";
+        document.getElementById('menu-recruiter').classList.add('hidden');
+        document.getElementById('menu-manager').classList.remove('hidden');
+        goBackToManagerList();
+    } else {
+        currentUser = 'recruiter';
+        nameEl.textContent = "María González"; roleEl.textContent = "Recruiter IT";
+        avatarEl.textContent = "MG"; avatarEl.style.backgroundColor = "var(--cc-light-bg)"; avatarEl.style.color = "var(--cc-text)";
+        document.getElementById('menu-recruiter').classList.remove('hidden');
+        document.getElementById('menu-manager').classList.add('hidden');
+        showOffers();
+    }
+}
 
 function changeStatus(id, newStatus) {
     const candidate = offersData[currentOfferKey].candidates.find(c => c.id === id);
     if (candidate) {
         candidate.status = newStatus;
-        if (newStatus === 'selected') {
-            switchTab('process');
-        } else if (newStatus === 'technical') {
-            alert(`El candidato ${candidate.name} ha sido enviado al equipo de Evaluación Técnica.`);
-            renderCandidateList(); 
-        } else {
-            renderCandidateList();
-        }
+        if(newStatus === 'selected') switchTab('process');
+        else if(newStatus === 'technical') { alert("Enviado al técnico"); renderCandidateList(); }
+        else renderCandidateList();
     }
 }
 
@@ -779,26 +927,21 @@ function setRating(id, rating) {
     }
 }
 
-function generateRatingHTML(id, currentRating) {
+function generateRatingHTML(id, currentRating, readOnly = false) {
     const opacitySad = currentRating === 1 ? '1' : '0.3';
     const opacityMeh = currentRating === 2 ? '1' : '0.3';
     const opacityHappy = currentRating === 3 ? '1' : '0.3';
     
-    const scaleSad = currentRating === 1 ? 'scale(1.2)' : 'scale(1)';
-    const scaleMeh = currentRating === 2 ? 'scale(1.2)' : 'scale(1)';
-    const scaleHappy = currentRating === 3 ? 'scale(1.2)' : 'scale(1)';
-
-    return `
-        <div class="rating-wrapper">
-            <i class="fa-solid fa-face-frown" 
-               style="color: #dc3545; opacity: ${opacitySad}; transform: ${scaleSad};" 
-               onclick="setRating(${id}, 1)" title="No apto"></i>
-            <i class="fa-solid fa-face-meh" 
-               style="color: #ffc107; opacity: ${opacityMeh}; transform: ${scaleMeh};" 
-               onclick="setRating(${id}, 2)" title="Dudoso"></i>
-            <i class="fa-solid fa-face-smile" 
-               style="color: #28a745; opacity: ${opacityHappy}; transform: ${scaleHappy};" 
-               onclick="setRating(${id}, 3)" title="Apto"></i>
-        </div>
-    `;
+    if (readOnly) {
+         return `<div class="rating-wrapper" style="pointer-events: none;">
+                ${currentRating === 1 ? '<i class="fa-solid fa-face-frown" style="color: #dc3545;"></i>' : ''}
+                ${currentRating === 2 ? '<i class="fa-solid fa-face-meh" style="color: #ffc107;"></i>' : ''}
+                ${currentRating === 3 ? '<i class="fa-solid fa-face-smile" style="color: #28a745;"></i>' : ''}
+            </div>`;
+    }
+    return `<div class="rating-wrapper">
+            <i class="fa-solid fa-face-frown" style="color:#dc3545; opacity:${opacitySad}" onclick="setRating(${id}, 1)"></i>
+            <i class="fa-solid fa-face-meh" style="color:#ffc107; opacity:${opacityMeh}" onclick="setRating(${id}, 2)"></i>
+            <i class="fa-solid fa-face-smile" style="color:#28a745; opacity:${opacityHappy}" onclick="setRating(${id}, 3)"></i>
+        </div>`;
 }
