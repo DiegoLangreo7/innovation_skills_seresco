@@ -700,7 +700,7 @@ function loadCandidate(id) {
         
         // Ver Notas RH (Read Only)
         interviewContainer.classList.remove('hidden');
-        document.getElementById('rh-title').innerHTML = '<i class="fa-solid fa-user-pen"></i> Feedback de la reclutadora';
+        document.getElementById('rh-title').innerHTML = '<i class="fa-solid fa-user-pen"></i> Feedback de la fase general';
         notesArea.value = data.interviewNotes || "Sin comentarios.";
         notesArea.disabled = true; notesArea.classList.add('read-only');
 
